@@ -1,0 +1,15 @@
+package es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.db.jpa.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.db.jpa.entity.ProductoJpaEntity;
+
+
+
+@Repository
+public interface ProductoEntityJpaRepository extends JpaRepository<ProductoJpaEntity, Integer>{
+    // Hereda automáticamente métodos como: save(), findById(), findAll(), delete(), etc.
+
+    public ProductoJpaEntity findByNombre(String nombre);
+}
