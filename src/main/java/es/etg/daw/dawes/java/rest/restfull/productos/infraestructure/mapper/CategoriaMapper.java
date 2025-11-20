@@ -34,6 +34,7 @@ public class CategoriaMapper {
                 .nombre(c.getNombre())
                 .build();
     }
+  
 
     public static Categoria toDomain(CategoriaJpaEntity ce){
 

@@ -17,8 +17,8 @@ public class CreateCategoriaUseCase {
         Categoria categoria = Categoria.builder()           
                               .nombre(comando.nombre())
                               .createdAt(LocalDateTime.now()).build();
-        categoriaRepository.save(categoria);
-        return categoria;
+        
+        return categoriaRepository.save(categoria);
     }
 }
 

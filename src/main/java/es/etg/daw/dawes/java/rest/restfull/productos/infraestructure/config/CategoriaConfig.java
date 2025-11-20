@@ -14,7 +14,6 @@ import es.etg.daw.dawes.java.rest.restfull.productos.application.usecase.categor
 import es.etg.daw.dawes.java.rest.restfull.productos.domain.repository.CategoriaRepository;
 import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.db.jpa.repository.CategoriaEntityJpaRepository;
 import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.db.jpa.repository.CategoriaJpaRepositoryImpl;
-import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.db.jpa.repository.ProductoEntityJpaRepository;
 import lombok.RequiredArgsConstructor;
 
 @Configuration

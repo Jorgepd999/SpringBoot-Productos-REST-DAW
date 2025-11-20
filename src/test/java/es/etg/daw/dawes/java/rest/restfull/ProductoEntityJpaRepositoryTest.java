@@ -44,7 +44,7 @@ public class ProductoEntityJpaRepositoryTest {
     void findById(){
         final double PRECISION = 0.001;
         update(); // Actualizo y recupero el dato controlado
-        var p = ProductoFactory.create(); //Producto cambiado antes, vamos a ve rsi está bien
+        var p = ProductoFactory.create(); //Producto cambiado antes, vamos a ve si está bien
 
         var producto = repository.findById(p.getId().getValue()).get();
 
