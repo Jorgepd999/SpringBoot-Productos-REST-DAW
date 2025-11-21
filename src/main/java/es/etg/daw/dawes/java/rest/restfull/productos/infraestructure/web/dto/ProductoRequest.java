@@ -15,7 +15,7 @@ public record ProductoRequest(
         @Max(value = 100, message = "{producto.valid.precio.max}")
         double precio,
 
-        //@Min(value = 1, message = "{producto.valid.categoria_id.min}")
+        @Min(value = 1, message = "{producto.valid.categoria_id.min}")
         int categoriaId ) {
 
                  
