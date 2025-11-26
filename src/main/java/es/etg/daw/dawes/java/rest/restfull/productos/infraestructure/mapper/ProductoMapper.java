@@ -12,9 +12,11 @@ import es.etg.daw.dawes.java.rest.restfull.productos.domain.model.ProductoId;
 import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.db.jpa.entity.CategoriaJpaEntity;
 import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.db.jpa.entity.ProductoJpaEntity;
 import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.web.dto.ProductoRequest;
-import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.web.dto.ProductoResponse;
+import es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.web.dto.ProductoResponse; 
 
 public class ProductoMapper {
+
+  
 
     public static CreateProductoCommand toCommand(ProductoRequest productoRequest) {
         return new CreateProductoCommand(productoRequest.nombre(), productoRequest.precio(),

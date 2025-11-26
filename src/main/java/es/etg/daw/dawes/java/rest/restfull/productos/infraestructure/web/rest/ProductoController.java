@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import es.etg.daw.dawes.java.rest.restfull.productos.application.command.producto.CreateProductoCommand;
 import es.etg.daw.dawes.java.rest.restfull.productos.application.command.producto.EditProductoCommand;
@@ -43,10 +45,24 @@ public class ProductoController {
     private final DeleteProductoUseCase deleteProductoService;
     private final EditProductoUseCase editProductoService;
 
+         // Recuperamos la versión desde el properties
+    @Value("${api.version}")
+    private String apiVersion;
+    // MÉTODO DE VALIDACIÓN, comprueba la version de la API, si es distinta da error.
+    private void checkApiVersion() {
+        if (!"1.0".equals(apiVersion)) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Versión del API incorrecta: " + apiVersion
+            );
+        }
+    }
+
     @PostMapping // Método Post
     public ResponseEntity<ProductoResponse> createProducto(
             // Indicamos que valide los datos de la request
             @Valid @RequestBody ProductoRequest productoRequest) {
+                checkApiVersion();
         CreateProductoCommand comando = ProductoMapper.toCommand(productoRequest);
         Producto producto = createProductoService.createProducto(comando);
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductoMapper.toResponse(producto)); // Respuesta
@@ -56,6 +72,7 @@ public class ProductoController {
 
      @GetMapping 
     public List<ProductoResponse> allProductos(){
+         checkApiVersion();
           // if(true) throw new NullPointerException();
             return findProductoService.findAll()
                     .stream() //Convierte la lista en un flujo
@@ -65,12 +82,14 @@ public class ProductoController {
     }
        @DeleteMapping("/{id}")
     public ResponseEntity<?>  deleteProducto(@PathVariable int id) {
+         checkApiVersion();
         deleteProductoService.delete(new ProductoId(id)); //convertimos id en ProductoId
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}") // Metodo put
     public ProductoResponse editProducto(@PathVariable int id, @RequestBody ProductoRequest productoRequest) {
+         checkApiVersion();
         EditProductoCommand comando = ProductoMapper.toCommand(id, productoRequest);
         Producto producto = editProductoService.update(comando);
         return ProductoMapper.toResponse(producto); // Respuesta
@@ -81,6 +100,7 @@ public class ProductoController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+         checkApiVersion();
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

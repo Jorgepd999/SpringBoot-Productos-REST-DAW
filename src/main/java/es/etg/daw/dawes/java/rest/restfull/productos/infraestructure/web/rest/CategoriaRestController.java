@@ -2,6 +2,7 @@ package es.etg.daw.dawes.java.rest.restfull.productos.infraestructure.web.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import es.etg.daw.dawes.java.rest.restfull.productos.application.command.categoria.CreateCategoriaCommand;
 import es.etg.daw.dawes.java.rest.restfull.productos.application.command.categoria.EditCategoriaCommand;
@@ -37,9 +39,23 @@ public class CategoriaRestController {
     private final DeleteCategoriaUseCase deleteCategoriaService;
     private final EditCategoriaUseCase editCategoriaService;
 
+           // Recuperamos la versión desde el properties
+    @Value("${api.version}")
+    private String apiVersion;
+    // MÉTODO DE VALIDACIÓN, comprueba la version de la API, si es distinta da error.
+    private void checkApiVersion() {
+        if (!"1.0".equals(apiVersion)) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Versión del API incorrecta: " + apiVersion
+            );
+        }
+    }
+
     @PostMapping
     public ResponseEntity<CategoriaResponse> createCategoria(
             @Valid @RequestBody CategoriaRequest categoriaRequest) {
+                checkApiVersion();
         CreateCategoriaCommand comando = CategoriaMapper.toCommand(categoriaRequest);
         Categoria categoria = createCategoriaService.createCategoria(comando);
         return ResponseEntity.status(HttpStatus.CREATED).body(CategoriaMapper.toResponse(categoria));
@@ -48,6 +64,7 @@ public class CategoriaRestController {
 
     @GetMapping
     public List<CategoriaResponse> allCategorias() {
+        checkApiVersion();
         return findCategoriaService.findAll()
                 .stream()
                 .map(CategoriaMapper::toResponse)
@@ -56,12 +73,14 @@ public class CategoriaRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategoria(@PathVariable int id) {
+        checkApiVersion();
         deleteCategoriaService.delete(new CategoriaId(id));
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}") // Metodo put
     public CategoriaResponse editProducto(@PathVariable int id, @Valid @RequestBody CategoriaRequest categoriaRequest) {
+        checkApiVersion();
         EditCategoriaCommand comando = CategoriaMapper.toCommand(id, categoriaRequest);
         Categoria categoria = editCategoriaService.update(comando);
         return CategoriaMapper.toResponse(categoria); // Respuesta
