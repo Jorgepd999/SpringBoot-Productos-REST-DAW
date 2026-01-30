@@ -8,11 +8,11 @@
         <version>3.5.7</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>es.etg.daw.dawes.java.rest</groupId>
-    <artifactId>restfull</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>restfull</name>
-    <description>Ejemplo de Restfull</description>
+    	<groupId>es.etg.daw.dawes.java.rest</groupId>
+	<artifactId>restful</artifactId>
+	<version>1.0.0</version>
+	<name>restful</name>
+	<description>Ejemplo de Restful</description>
     <url/>
     <licenses>
         <license/>
