@@ -3,7 +3,7 @@
 {
 	"name": "alpine",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "julparper/alpine_node_mvn_git_jdk:v1",
+	"image": "julparper/alpine_node_mvn_git_jdk:v2",
 	"forwardPorts": [8080],
 
 	//"features": {
@@ -12,9 +12,9 @@
 	//},
 
 	//Montamos las claves ssh para que estén disponibles en el contenedor
-	//"mounts": [
-    //"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
-	//],
+	"mounts": [
+    "source=${localEnv:USERPROFILE}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+	],
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
