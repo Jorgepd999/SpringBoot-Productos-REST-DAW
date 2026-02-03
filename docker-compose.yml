@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  mi-api-rest:
+    image: jorgeperez099/restful:v1
+    container_name: restful-container
+    ports:
+      - "8080:8080"
+    restart: always
